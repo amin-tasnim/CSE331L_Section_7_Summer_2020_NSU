@@ -1,0 +1,56 @@
+
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+
+PROMPT_1 DB " Enter an integer less than 9:$"
+PROMPT_2 DB " The number is :$"
+
+
+.CODE
+MAIN PROC
+    MOV AX, @DATA
+    MOV DS, AX
+    LEA DX, PROMPT_1
+    MOV AH, 9
+    INT 21H
+
+  MOV AH,1
+  INT 21H
+  SUB AL,30H
+  LEA DX,PROMPT_2
+  MOV AH,9
+  INT 21H
+
+  CMP AL,02H 
+  JE SPECIAL
+  CMP AL,03H
+  JE SPECIAL
+
+  CMP AL,05H
+  JE SPECIAL
+  CMP AL,07H
+  JE SPECIAL
+  MOV DL,'N'
+  MOV AH,02H
+  INT 21H
+  
+  JMP END1
+
+
+
+  
+SPECIAL:
+
+   MOV DL,'X'
+   MOV AH,02H
+   INT 21H
+   
+   END1: HLT
+   
+   
+   MAIN ENDP
+  END MAIN
+   
+
